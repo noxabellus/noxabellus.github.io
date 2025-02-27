@@ -1,11 +1,71 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>noxabellus</title>
+    <link rel="stylesheet" href="./common/reset.css">
+    <link rel="stylesheet" href="./common/styles.css">
+    <style>
+    </style>
 </head>
+
 <body>
-    <p>Test</p>
+    <space></space>
+    <header>
+        <h1>noxabellus</h1>
+        <em>(they/them)</em>
+
+        <article style="align-self: stretch">
+            <div style="padding: 3rem 0; text-align: left">
+                <p>low & high level programmer</p>
+                <p>type theory meddler</p>
+                <p>language designer</p>
+            </div>
+
+            <p style="max-width: 6cm; justify-self: flex-end;">
+                <a href="mailto:noxabellus@gmail.com">Email me</a>
+                (or contact me on
+                    <br> <a class="discord-ref">Discord</a>)
+            </p>
+        </article>
+    </header>
+    <main>
+        <em>currently spending most of my time on the
+            <a href="https://ribbon-lang.com">Ribbon Programming Language</a></em>
+        <article>
+            <h2>Other Projects</h2>
+            <ul style="text-align: center;">
+                <li><a href="./zzb/index.html">zzb</a> - Zig Zon Builder</li>
+                <li>there are more but its 4am rn <br> i'll fix this later. <a href="https://github.com/noxabellus">here's my github for now.</a></li>
+            </ul>
+        </article>
+    </main>
+    <div id="discord-dialog" class="discord-ref dialog hidden">
+        <div class="dialog-content">
+            <p>
+                As far as I know, theres no way to give someone a link that opens a DM,
+                sends a friend request, or anything like that.
+            </p>
+            <p>
+                So, if you want to add me on Discord, my username is <code>noxabellus</code>.
+                You can find me on quite a few dev servers,
+                such as <a href="https://discord.gg/4Kjt3ZE">Pld</a>,
+                and <a href=" https://discord.gg/zig">Zig</a>.
+            </p>
+            <p>Feel free to tag me or DM!</p>
+        </div>
+    </div>
+    <script>
+        const discordRefs = document.querySelectorAll(".discord-ref");
+        const discordDialog = document.getElementById("discord-dialog");
+
+        discordRefs.forEach(ref => ref.addEventListener("click", () => {
+            discordDialog.classList.toggle("hidden");
+        }));
+    </script>
 </body>
+
 </html>

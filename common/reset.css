@@ -1,0 +1,123 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    line-height: 1em;
+    cursor: default;
+}
+
+a {
+    cursor: pointer;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    height: 100%;
+}
+
+ul {
+    list-style: none;
+}
+
+
+body,
+header,
+main,
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+space {
+    flex-grow: 1;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p:nth-of-type(2n) {
+    padding: 1em 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+h1 {
+    font-size: 2cm;
+    line-height: .75em;
+}
+
+h2 {
+    font-size: 1cm;
+}
+
+h3 {
+    font-size: .75cm;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+.dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.dialog-content {
+    max-width: 50vw;
+    max-height: 50vh;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zzb - noxabellus</title>
+    <link rel="stylesheet" href="../common/reset.css">
+    <link rel="stylesheet" href="../common/styles.css">
+    <style>
+        #navWrap {
+            display: flex;
+            flex-grow: 1;
+            align-self: stretch;
+            flex-direction: column;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        #package-description {
+            max-width: 40rem;
+            margin: 0 auto;
+            padding: 1rem;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href="../index.html">noxabellus'</a></h1>
+        <h2><a class="logo" href="#">zzb</a></h2>
+
+        <div id="navWrap">
+            <input type="search" id="search" autocomplete="off" spellcheck="false"
+                placeholder="`s` to search, `?` to see more options">
+            <div id="sectNav" class="hidden">
+                <ul id="listNav"></ul>
+            </div>
+        </div>
+
+        <p id="package-description">
+            Zig Zon Builder is a simple utility that parses your <code>build.zig.zon</code> file,
+            then creates build steps and such for you. It is designed to grow with your project
+            and therefore also provides a programmatic API.
+
+            The purely declarative style of build is convenient for projects that have
+            relatively straight forward build workflows, in terms of meta-actions that need
+            to be performed, independent of project size. Projects where the overhead of
+            manually specifying everything imperatively is not necessary, but the loss of
+            path traceability with file-system scanning alternatives is undesirable. If
+            complications (inevitably?) creep in, you can easily transition to the
+            programmatic API to cut holes for those. If things end up getting really
+            complicated, you can phase it out and contend with very minimal,
+            straight-forward criteria for backwards compatibility.
+        </p>
+    </header>
+    <main>
+        <p id="status">Loading...</p>
+
+        <article>
+            <h4 id="hdrName" class="hidden"><span></span><a href="#">[src]</a></h4>
+            <div id="fnProto" class="hidden">
+                <pre><code id="fnProtoCode"></code></pre>
+            </div>
+            <div id="tldDocs" class="hidden"></div>
+            <div id="sectParams" class="hidden">
+                <h2>Parameters</h2>
+                <div id="listParams">
+                </div>
+            </div>
+            <div id="sectFnErrors" class="hidden">
+                <h2>Errors</h2>
+                <div id="fnErrorsAnyError">
+                    <p><span class="tok-type">anyerror</span> means the error set is known only at runtime.</p>
+                </div>
+                <div id="tableFnErrors">
+                    <dl id="listFnErrors"></dl>
+                </div>
+            </div>
+            <div id="sectSearchResults" class="hidden">
+                <h2>Search Results</h2>
+                <ul id="listSearchResults"></ul>
+            </div>
+            <div id="sectSearchNoResults" class="hidden">
+                <h2>No Results Found</h2>
+                <p>Press escape to exit search and then '?' to see more options.</p>
+            </div>
+            <div id="sectFields" class="hidden">
+                <h2>Fields</h2>
+                <div id="listFields">
+                </div>
+            </div>
+            <div id="sectTypes" class="hidden">
+                <h2>Types</h2>
+                <ul id="listTypes" class="columns">
+                </ul>
+            </div>
+            <div id="sectNamespaces" class="hidden">
+                <h2>Namespaces</h2>
+                <ul id="listNamespaces" class="columns">
+                </ul>
+            </div>
+            <div id="sectGlobalVars" class="hidden">
+                <h2>Global Variables</h2>
+                <table>
+                    <tbody id="listGlobalVars">
+                    </tbody>
+                </table>
+            </div>
+            <div id="sectValues" class="hidden">
+                <h2>Values</h2>
+                <table>
+                    <tbody id="listValues">
+                    </tbody>
+                </table>
+            </div>
+            <div id="sectFns" class="hidden">
+                <h2>Functions</h2>
+                <dl id="listFns">
+                </dl>
+            </div>
+            <div id="sectErrSets" class="hidden">
+                <h2>Error Sets</h2>
+                <ul id="listErrSets" class="columns">
+                </ul>
+            </div>
+            <div id="sectDocTests" class="hidden">
+                <h2>Example Usage</h2>
+                <pre><code id="docTestsCode"></code></pre>
+            </div>
+            <div id="sectSource" class="hidden">
+                <h2>Source Code</h2>
+                <pre><code id="sourceText"></code></pre>
+            </div>
+        </article>
+
+        <div id="errors" class="hidden">
+            <h4>Errors</h4>
+            <pre id="errorsText"></pre>
+        </div>
+
+        <div id="helpDialog" class="hidden dialog">
+            <div class="dialog-content">
+                <h4>Keyboard Shortcuts</h4>
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                </dl>
+                <dl>
+                    <dt><kbd>Esc</kbd></dt>
+                    <dd>Clear focus; close this dialog</dd>
+                </dl>
+                <dl>
+                    <dt><kbd>s</kbd></dt>
+                    <dd>Focus the search field</dd>
+                </dl>
+                <dl>
+                    <dt><kbd>u</kbd></dt>
+                    <dd>Go to source code</dd>
+                </dl>
+                <dl>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                </dl>
+                <dl>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                </dl>
+                <dl>
+                    <dt><kbd>⏎</kbd></dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+        </div>
+    </main>
+
+    <script src="./main.js"></script>
+    <script>
+        const packageDescription = document.getElementById("package-description");
+
+        window.addEventListener("hashchange", function() {
+            console.log(window.location.hash);
+
+            if (window.location.hash != "#" && window.location.hash != "" && window.location.hash != "#zzb") {
+                packageDescription.classList.add("hidden");
+            } else {
+                packageDescription.classList.remove("hidden");
+            }
+        });
+    </script>
+</body>
+
+</html>

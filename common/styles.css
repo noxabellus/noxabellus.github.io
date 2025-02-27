@@ -1,0 +1,102 @@
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: hsl(273, 16%, 34%);
+    color: white;
+}
+
+code {
+    background: hsla(272, 12%, 21%, 0.5);
+    font-family: "Roboto Mono", monospace;
+    padding: .2em;
+    line-height: 2em;
+    border-radius: .5em;
+}
+
+a {
+    color: white;
+    text-decoration: underline dashed;
+    text-underline-offset: .2rem;
+}
+
+header {
+    align-self: center;
+    padding: 1rem;
+    align-items: flex-end;
+}
+
+header > *:first-child {
+    align-self: flex-start;
+}
+
+header > * {
+    display: block;
+    text-align: right;
+}
+
+main {
+    flex-grow: 1;
+    padding: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+main > em {
+    display: block;
+    text-align: center;
+}
+
+main > h2 {
+    display: block;
+    text-align: center;
+    margin-top: 4rem;
+}
+
+main > article {
+    margin-top: 1rem;
+}
+
+.dialog {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.dialog-content {
+    background: hsl(273, 16%, 34%);
+    padding: 1rem;
+    border-radius: .5rem;
+}
+
+.tok-builtin {
+    color: #ff894c;
+}
+
+.tok-comment {
+    color: #aa7;
+    font-style: italic;
+}
+
+.tok-fn {
+    color: #B1A0F8;
+    font-weight: bold;
+}
+
+.tok-null {
+    color: #ff8080;
+}
+
+.tok-number {
+    color: #ff8080;
+}
+
+.tok-type {
+    color: #68f;
+    font-weight: bold;
+}
+
+.tok-kw {
+    color: #eee;
+    font-weight: bold;
+}
+
+.tok-str {
+    color: #2e5;
+}
