@@ -4,12 +4,63 @@ body {
     color: white;
 }
 
-code {
-    background: hsla(272, 12%, 21%, 0.5);
-    font-family: "Roboto Mono", monospace;
-    padding: .2em;
-    line-height: 2em;
-    border-radius: .5em;
+h1 {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+h1 ~ em {
+    display: block;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+h2, h3 {
+    margin-top: 2rem;
+}
+
+input[type="search"] {
+    background-color: hsla(0, 0%, 98%, 0.5);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+input[type="search"],
+input[type="search"]::placeholder {
+    color: rgba(0, 0, 0, 0.728);
+}
+
+
+#nav-wrap {
+    display: flex;
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+
+nav {
+    display: flex;
+    align-self: stretch;
+}
+
+nav.vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav.horizontal {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+h2, h3, h4 {
+    text-align: center;
+    margin-bottom: .5rem;
 }
 
 a {
@@ -19,40 +70,39 @@ a {
 }
 
 header {
-    align-self: center;
-    padding: 1rem;
-    align-items: flex-end;
+    margin-bottom: 4rem;
 }
 
 header > *:first-child {
     align-self: flex-start;
 }
 
-header > * {
-    display: block;
+header > h2 {
+    padding: 0;
     text-align: right;
+    margin-bottom: 1rem;
 }
 
-main {
-    flex-grow: 1;
-    padding: 1rem;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-main > em {
-    display: block;
-    text-align: center;
-}
-
-main > h2 {
-    display: block;
-    text-align: center;
-    margin-top: 4rem;
-}
-
-main > article {
+li:not(:first-child),
+dl:not(:first-child) {
     margin-top: 1rem;
+}
+
+dt:has(kbd),
+dt:has(kbd) + dd {
+    display: inline;
+}
+
+kbd {
+    display: inline-block;
+    border: 1px solid white;
+    text-align: center;
+    min-width: 3em;
+    line-height: 2.5em;
+    border-radius: .5em;
+    padding: .1em .5em;
+    margin: 0 .2em;
+    background: hsla(272, 12%, 21%, 0.5);
 }
 
 .dialog {
@@ -93,10 +143,164 @@ main > article {
 }
 
 .tok-kw {
-    color: #eee;
-    font-weight: bold;
+    color: #b074bc;
 }
 
 .tok-str {
     color: #2e5;
+}
+
+
+code {
+    background: rgb(40, 44, 52);
+    font-family: "Roboto Mono", monospace;
+    padding: .2em;
+    line-height: 1.75em;
+    border-radius: .5em;
+}
+
+dt:has(code) + dd,
+pre:has(code) + div:has(p) {
+    margin-top: 1rem;
+}
+
+#sectNav {
+    font-size: 1cm;
+}
+
+#listFnErrors *:not(:first-child),
+#listSearchResults *:not(:first-child),
+#listParams *:not(:first-child),
+#listFields *:not(:first-child),
+#listTypes *:not(:first-child),
+#listNamespaces *:not(:first-child),
+#listFns *:not(:first-child),
+#listErrSets *:not(:first-child) {
+    margin-top: 1rem;
+}
+
+#sectNav,
+#listFnErrors,
+#listSearchResults,
+#listParams,
+#listFields,
+#listTypes,
+#listNamespaces,
+#listFns,
+#listErrSets,
+td > p {
+    display: block;
+    padding: 1rem;
+}
+
+#fnProto, #tldDocs {
+    margin-top: 2rem;
+}
+
+#listParams > div:not(:first-child) {
+    margin-top: 1rem;
+}
+
+#sectNav,
+#listFnErrors,
+#listSearchResults,
+#listParams,
+#listFields,
+#listTypes,
+#listNamespaces,
+#listFns,
+#listErrSets,
+td > p,
+table {
+    background: hsla(272, 12%, 21%, 0.5);
+    width: 100%;
+    border-radius: 1rem;
+}
+
+td > code {
+    display: block;
+    overflow: auto;
+    scrollbar-width: thin;
+    text-wrap: nowrap;
+}
+
+
+#list-nav-eql {
+    display: inline;
+}
+
+#listNav:not(:has(li)) + #list-nav-eql {
+    display: none;
+}
+
+
+#search {
+    margin-top: 1rem;
+}
+
+#listNav {
+    display: flex;
+    flex-direction: row;
+}
+
+#sectNav {
+    text-align: center;
+}
+
+#sectNav h3,
+#sectNav ul,
+#sectNav ul li {
+    display: inline;
+}
+
+#listNav,
+#status {
+    margin-top: 1rem;
+}
+
+#status.hidden + #listNav::before {
+    margin-right: .5rem;
+}
+
+#listNav li:not(:first-child)::before {
+    content: ".";
+}
+
+#status.hidden + #listNav::before,
+#listNav li:not(:first-child)::before,
+#status {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#status.hidden + #listNav::before,
+#status {
+    color: hsl(293, 44%, 72%);
+}
+
+
+#listNav li {
+    margin: 0;
+}
+
+#listNav li ::marker {
+    margin: 0;
+}
+
+#package-description {
+    margin: 0 auto;
+    padding-top: 4rem;
+    text-align: left;
+}
+
+#sectNav a,
+code a {
+    color: hsl(293, 44%, 72%);
+    text-decoration: underline;
+}
+
+#sectNav > p,
+header > h2,
+.dialog-content > h3 {
+    margin-top: 0;
 }

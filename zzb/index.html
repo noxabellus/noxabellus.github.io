@@ -9,185 +9,310 @@
     <link rel="stylesheet" href="../common/reset.css">
     <link rel="stylesheet" href="../common/styles.css">
     <style>
-        #navWrap {
-            display: flex;
-            flex-grow: 1;
-            align-self: stretch;
-            flex-direction: column;
-            justify-content: center;
-            align-items: stretch;
-        }
-
-        #package-description {
-            max-width: 40rem;
-            margin: 0 auto;
-            padding: 1rem;
-            text-align: left;
-        }
     </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark-reasonable.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/bash.min.js"></script>
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/json.min.js"></script>
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/rust.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script>
+        hljs.addPlugin(new CopyButtonPlugin());
+    </script>
 </head>
 
 <body>
-    <header>
-        <h1><a href="../index.html">noxabellus'</a></h1>
-        <h2><a class="logo" href="#">zzb</a></h2>
+    <div class="wrapper">
+        <div class="content">
+            <header>
+                <h1><a href="../index.html">noxabellus'</a></h1>
+                <h2><a class="logo" href="#">zzb</a></h2>
 
-        <div id="navWrap">
-            <input type="search" id="search" autocomplete="off" spellcheck="false"
-                placeholder="`s` to search, `?` to see more options">
-            <div id="sectNav" class="hidden">
-                <ul id="listNav"></ul>
-            </div>
+                <div id="nav-wrap">
+                    <nav class="horizontal">
+                        <pre><code class="language-bash">zig fetch --save git+https://github.com/noxabellus/zzb</code></pre>
+                        <nav class="vertical">
+                            <a href="https://unlicense.org">[The Unlicense]</a>
+                            <a href="https://github.com/noxabellus/zzb">[View on Github]</a>
+                        </nav>
+                    </nav>
+                    <input type="search" id="search" autocomplete="off" spellcheck="false"
+                        placeholder="`s` to search, `esc` to clear, `?` to see more options">
+                </div>
+
+                <div id="package-description">
+                    <p>
+                        <strong>Zig Zon Builder</strong> is a simple utility that parses your <code class="inline">build.zig.zon</code> file,
+                        then creates build steps and such for you. It is designed to grow with your project
+                        and therefore also provides a programmatic API.
+
+                        The purely declarative style of build is convenient for projects that have
+                        relatively straight forward build workflows, in terms of meta-actions that need
+                        to be performed, independent of project size. Projects where the overhead of
+                        manually specifying everything imperatively is not necessary, but the loss of
+                        path traceability with file-system scanning alternatives is undesirable. If
+                        complications (inevitably?) creep in, you can easily transition to the
+                        programmatic API to cut holes for those. If things end up getting really
+                        complicated, you can phase it out and contend with very minimal,
+                        straight-forward criteria for backwards compatibility.
+                    </p>
+
+                    <h3>Once set up, a set of build steps are made available:</h3>
+<pre><code class="language-bash"># default (install) step
+zig build
+
+# run steps for binaries: `run-[NAME]`
+zig build run-main
+
+# total-project test step
+zig build test
+
+# specific module and binary test steps as well: `test-[NAME]`
+zig build test-main
+
+# total-project check step for use with zls
+zig build check
+
+# specific module and binary check steps as well: `check-[NAME]`
+zig build check-main
+
+# flags work as expected
+zig build run-main --release=fast</code></pre>
+
+                    <h3><code>build.zig</code>:</h3>
+<pre><code class="language-rust">pub const build = @import("zzb").Builder.run;</code></pre>
+
+                    <h3><code>build.zig.zon</code>:</h3>
+<pre><code class="language-rust">.{
+    .name = "cool_zig_package",
+    .version = "0.1.0",
+    .minimum_zig_version = "0.14.0-dev.3367+1cc388d52",
+    .dependencies = .{
+        .zzb = .{
+            .url = "https://github.com/noxabellus/zzb#COMMIT_HASH_HERE",
+            .hash = "...",
+        },
+        .example_dep = .{
+            .url = "https://example.com/foo.tar.gz",
+            .hash = "...",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "LICENSE",
+        "README.md",
+    },
+
+    .zzb_config = .{
+        .mod_path = "src/mod",
+        .bin_path = "src/bin",
+        .packages = .{
+            .{
+                .name = "example_dep",
+                .alias = "example",
+            },
+        },
+        .modules = .{
+            .{
+                .name = "foo",
+                .exported = false,
+            },
+            .{
+                .name = "X",
+                .dependencies = .{
+                    .{ .internal = "foo" },
+                },
+            },
+        },
+        .binaries = .{
+            .{
+                .name = "main",
+                .dependencies = .{
+                    .{ .internal = "X" },
+                    .{ .external = .{
+                        .package_name = "example",
+                        .module_name = "ExampleModule",
+                    } },
+                },
+            },
+        },
+    },
+}</code></pre>
+
+                    <h3>Usage from the <code>build.zig</code> of a package that depends on yours is typical:</h3>
+<pre><code class="language-rust">const cool_zig_package = b.dependency("cool_zig_package", .{
+    .target = ourTarget,
+    .optimize = ourOptimize,
+});
+
+// 👎 not exported
+b.module("foo");
+
+// 👍 modules exported by default
+const X = b.module("X");</code></pre>
+                </div>
+            </header>
+            <script>hljs.highlightAll();</script>
+            <main>
+                <article>
+                    <div id="sectNav">
+                        <p id="status">[Loading zig doc...]</p>
+                        <ul id="listNav"></ul>
+                        <div id="list-nav-eql">
+                            <span>&nbsp;=&nbsp;</span>
+                            <h3 id="hdrName" class="hidden"><span></span><a href="#">[src]</a></h3>
+                        </div>
+                    </div>
+                    <div id="tldDocs" class="hidden"></div>
+                    <div id="fnProto" class="hidden">
+                        <pre><code id="fnProtoCode"></code></pre>
+                    </div>
+                    <div id="sectParams" class="hidden">
+                        <h2>Parameters</h2>
+                        <div id="listParams">
+                        </div>
+                    </div>
+                    <div id="sectFnErrors" class="hidden">
+                        <h2>Errors</h2>
+                        <div id="fnErrorsAnyError">
+                            <p><span class="tok-type">anyerror</span> means the error set is known only at runtime.</p>
+                        </div>
+                        <div id="tableFnErrors">
+                            <dl id="listFnErrors"></dl>
+                        </div>
+                    </div>
+                    <div id="sectSearchResults" class="hidden">
+                        <h2>Search Results</h2>
+                        <ul id="listSearchResults"></ul>
+                    </div>
+                    <div id="sectSearchNoResults" class="hidden">
+                        <h2>No Results Found</h2>
+                        <p>Press escape to exit search and then '?' to see more options.</p>
+                    </div>
+                    <div id="sectFields" class="hidden">
+                        <h2>Fields</h2>
+                        <div id="listFields">
+                        </div>
+                    </div>
+                    <div id="sectTypes" class="hidden">
+                        <h2>Types</h2>
+                        <ul id="listTypes" class="columns">
+                        </ul>
+                    </div>
+                    <div id="sectNamespaces" class="hidden">
+                        <h2>Namespaces</h2>
+                        <ul id="listNamespaces" class="columns">
+                        </ul>
+                    </div>
+                    <div id="sectGlobalVars" class="hidden">
+                        <h2>Global Variables</h2>
+                        <table>
+                            <tbody id="listGlobalVars">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="sectValues" class="hidden">
+                        <h2>Values</h2>
+                        <table>
+                            <tbody id="listValues">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="sectFns" class="hidden">
+                        <h2>Functions</h2>
+                        <dl id="listFns">
+                        </dl>
+                    </div>
+                    <div id="sectErrSets" class="hidden">
+                        <h2>Error Sets</h2>
+                        <ul id="listErrSets" class="columns">
+                        </ul>
+                    </div>
+                    <div id="sectDocTests" class="hidden">
+                        <h2>Example Usage</h2>
+                        <pre><code id="docTestsCode"></code></pre>
+                    </div>
+                    <div id="sectSource" class="hidden">
+                        <h2>Source Code</h2>
+                        <pre><code id="sourceText"></code></pre>
+                    </div>
+                    <div id="errors" class="hidden">
+                        <h3>Errors</h3>
+                        <pre id="errorsText"></pre>
+                    </div>
+                </article>
+            </main>
         </div>
-
-        <p id="package-description">
-            Zig Zon Builder is a simple utility that parses your <code>build.zig.zon</code> file,
-            then creates build steps and such for you. It is designed to grow with your project
-            and therefore also provides a programmatic API.
-
-            The purely declarative style of build is convenient for projects that have
-            relatively straight forward build workflows, in terms of meta-actions that need
-            to be performed, independent of project size. Projects where the overhead of
-            manually specifying everything imperatively is not necessary, but the loss of
-            path traceability with file-system scanning alternatives is undesirable. If
-            complications (inevitably?) creep in, you can easily transition to the
-            programmatic API to cut holes for those. If things end up getting really
-            complicated, you can phase it out and contend with very minimal,
-            straight-forward criteria for backwards compatibility.
-        </p>
-    </header>
-    <main>
-        <p id="status">Loading...</p>
-
-        <article>
-            <h4 id="hdrName" class="hidden"><span></span><a href="#">[src]</a></h4>
-            <div id="fnProto" class="hidden">
-                <pre><code id="fnProtoCode"></code></pre>
-            </div>
-            <div id="tldDocs" class="hidden"></div>
-            <div id="sectParams" class="hidden">
-                <h2>Parameters</h2>
-                <div id="listParams">
-                </div>
-            </div>
-            <div id="sectFnErrors" class="hidden">
-                <h2>Errors</h2>
-                <div id="fnErrorsAnyError">
-                    <p><span class="tok-type">anyerror</span> means the error set is known only at runtime.</p>
-                </div>
-                <div id="tableFnErrors">
-                    <dl id="listFnErrors"></dl>
-                </div>
-            </div>
-            <div id="sectSearchResults" class="hidden">
-                <h2>Search Results</h2>
-                <ul id="listSearchResults"></ul>
-            </div>
-            <div id="sectSearchNoResults" class="hidden">
-                <h2>No Results Found</h2>
-                <p>Press escape to exit search and then '?' to see more options.</p>
-            </div>
-            <div id="sectFields" class="hidden">
-                <h2>Fields</h2>
-                <div id="listFields">
-                </div>
-            </div>
-            <div id="sectTypes" class="hidden">
-                <h2>Types</h2>
-                <ul id="listTypes" class="columns">
-                </ul>
-            </div>
-            <div id="sectNamespaces" class="hidden">
-                <h2>Namespaces</h2>
-                <ul id="listNamespaces" class="columns">
-                </ul>
-            </div>
-            <div id="sectGlobalVars" class="hidden">
-                <h2>Global Variables</h2>
-                <table>
-                    <tbody id="listGlobalVars">
-                    </tbody>
-                </table>
-            </div>
-            <div id="sectValues" class="hidden">
-                <h2>Values</h2>
-                <table>
-                    <tbody id="listValues">
-                    </tbody>
-                </table>
-            </div>
-            <div id="sectFns" class="hidden">
-                <h2>Functions</h2>
-                <dl id="listFns">
-                </dl>
-            </div>
-            <div id="sectErrSets" class="hidden">
-                <h2>Error Sets</h2>
-                <ul id="listErrSets" class="columns">
-                </ul>
-            </div>
-            <div id="sectDocTests" class="hidden">
-                <h2>Example Usage</h2>
-                <pre><code id="docTestsCode"></code></pre>
-            </div>
-            <div id="sectSource" class="hidden">
-                <h2>Source Code</h2>
-                <pre><code id="sourceText"></code></pre>
-            </div>
-        </article>
-
-        <div id="errors" class="hidden">
-            <h4>Errors</h4>
-            <pre id="errorsText"></pre>
+    </div>
+    <div id="helpDialog" class="hidden dialog">
+        <div class="dialog-content">
+            <h3>Keyboard Shortcuts</h3>
+            <dl>
+                <dt><kbd>?</kbd></dt>
+                <dd>Show this help dialog</dd>
+            </dl>
+            <dl>
+                <dt><kbd>Esc</kbd></dt>
+                <dd>Clear focus; close this dialog</dd>
+            </dl>
+            <dl>
+                <dt><kbd>s</kbd></dt>
+                <dd>Focus the search field</dd>
+            </dl>
+            <dl>
+                <dt><kbd>u</kbd></dt>
+                <dd>Go to source code</dd>
+            </dl>
+            <dl>
+                <dt><kbd>↑</kbd></dt>
+                <dd>Move up in search results</dd>
+            </dl>
+            <dl>
+                <dt><kbd>↓</kbd></dt>
+                <dd>Move down in search results</dd>
+            </dl>
+            <dl>
+                <dt><kbd>⏎</kbd></dt>
+                <dd>Go to active search result</dd>
+            </dl>
         </div>
-
-        <div id="helpDialog" class="hidden dialog">
-            <div class="dialog-content">
-                <h4>Keyboard Shortcuts</h4>
-                <dl>
-                    <dt><kbd>?</kbd></dt>
-                    <dd>Show this help dialog</dd>
-                </dl>
-                <dl>
-                    <dt><kbd>Esc</kbd></dt>
-                    <dd>Clear focus; close this dialog</dd>
-                </dl>
-                <dl>
-                    <dt><kbd>s</kbd></dt>
-                    <dd>Focus the search field</dd>
-                </dl>
-                <dl>
-                    <dt><kbd>u</kbd></dt>
-                    <dd>Go to source code</dd>
-                </dl>
-                <dl>
-                    <dt><kbd>↑</kbd></dt>
-                    <dd>Move up in search results</dd>
-                </dl>
-                <dl>
-                    <dt><kbd>↓</kbd></dt>
-                    <dd>Move down in search results</dd>
-                </dl>
-                <dl>
-                    <dt><kbd>⏎</kbd></dt>
-                    <dd>Go to active search result</dd>
-                </dl>
-            </div>
-        </div>
-    </main>
-
+    </div>
     <script src="./main.js"></script>
     <script>
+        const helpDialog = document.getElementById("helpDialog");
+        const searchBox = document.getElementById("search");
         const packageDescription = document.getElementById("package-description");
 
-        window.addEventListener("hashchange", function() {
-            console.log(window.location.hash);
-
-            if (window.location.hash != "#" && window.location.hash != "" && window.location.hash != "#zzb") {
+        function onHashChange() {
+            if (searchBox.value != ""
+            || (window.location.hash != "#" && window.location.hash != "" && window.location.hash != "#zzb")) {
                 packageDescription.classList.add("hidden");
             } else {
                 packageDescription.classList.remove("hidden");
             }
+        }
+        searchBox.addEventListener("input", onHashChange);
+        window.addEventListener("hashchange", onHashChange);
+        window.addEventListener("keydown", e => {
+            if (e.key == "Escape") {
+                searchBox.value = "";
+                onHashChange();
+            }
+        });
+        searchBox.addEventListener("keydown", e => {
+            if (e.key == "Escape") {
+                setTimeout(onHashChange, 100);
+            }
+        });
+
+        onHashChange();
+
+        helpDialog.addEventListener("click", () => {
+            helpDialog.classList.add("hidden");
         });
     </script>
 </body>
