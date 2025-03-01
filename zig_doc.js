@@ -308,7 +308,7 @@
         function renderNotFound() {
             const hash = computeSearchHash();
 
-            if (hash.startsWith("#main-doc:")) {
+            if (hash.startsWith("#main-doc")) {
                 return;
             } else {
                 console.log("Failed to find decl for search hash", hash);
@@ -648,7 +648,7 @@
 
         function onHashChange(state) {
             const hash = computeSearchHash();
-            if (!hash.startsWith("#main-doc:")) {
+            if (!hash.startsWith("#main-doc")) {
                 history.replaceState({}, "");
 
                 navigate(location.hash);
