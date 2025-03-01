@@ -5,11 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zzb - noxabellus</title>
-    <link rel="stylesheet" href="../common/reset.css">
-    <link rel="stylesheet" href="../common/styles.css">
-    <style>
-    </style>
+    <title>noxabell.us/zzb</title>
+
+    <link rel="stylesheet" href="../styles.css">
 
     <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark-reasonable.min.css">
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css">
@@ -19,6 +17,7 @@
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/json.min.js"></script>
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/rust.min.js"></script>
     <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+
     <script>
         hljs.addPlugin(new CopyButtonPlugin());
     </script>
@@ -156,7 +155,6 @@ b.module("foo");
 const X = b.module("X");</code></pre>
                 </div>
             </header>
-            <script>hljs.highlightAll();</script>
             <main>
                 <article>
                     <div id="sectNav">
@@ -281,7 +279,8 @@ const X = b.module("X");</code></pre>
             </dl>
         </div>
     </div>
-    <script src="./main.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../zig_doc.js"></script>
     <script>
         const helpDialog = document.getElementById("helpDialog");
         const searchBox = document.getElementById("search");

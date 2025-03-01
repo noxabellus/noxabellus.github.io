@@ -5,13 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>noxabellus</title>
-    <link rel="stylesheet" href="./common/reset.css">
-    <link rel="stylesheet" href="./common/styles.css">
+    <title>noxabell.us</title>
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./styles.css">
     <style>
         .content {
             margin: auto;
-
             width: 40rem;
         }
 
@@ -43,6 +42,10 @@
 
         #other-projects {
             margin-top: 2rem;
+        }
+
+        #discord-dialog .dialog-content {
+            max-width: 30rem;
         }
     </style>
 </head>
@@ -99,6 +102,14 @@
     <script>
         const discordRefs = document.querySelectorAll(".discord-ref");
         const discordDialog = document.getElementById("discord-dialog");
+
+        function escListener(event) {
+            if (event.key === "Escape") {
+                discordDialog.classList.add("hidden");
+            }
+        }
+
+        document.addEventListener("keydown", escListener);
 
         discordRefs.forEach(ref => ref.addEventListener("click", () => {
             discordDialog.classList.toggle("hidden");
