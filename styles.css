@@ -56,6 +56,14 @@ ul {
     list-style: none;
 }
 
+ul > li > ol,
+ol > li > ul,
+ul > li > ul,
+ol > li > ol {
+    margin-top: 1rem;
+    margin-left: 4rem;
+}
+
 space {
     flex-grow: 1;
 }
@@ -111,7 +119,7 @@ p {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 4em;
     line-height: .75em;
 }
 
@@ -119,9 +127,10 @@ h2 {
     font-size: 2em;
 }
 
-h3 {
-    font-size: .75em;
+h3, h4 {
+    font-size: 1em;
 }
+
 
 h1,
 h2,
@@ -149,7 +158,7 @@ h1 ~ em {
     margin-bottom: 1rem;
 }
 
-h2, h3 {
+h2, h3, h4 {
     margin-top: 2rem;
 }
 
@@ -187,10 +196,22 @@ nav.vertical {
     text-align: right;
 }
 
+nav.vertical:has(> *:only-child) {
+    justify-content: flex-start;
+}
+
 nav.horizontal {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
+}
+
+nav.horizontal:has(> *:only-child) {
+    justify-content: flex-end;
+}
+
+nav > * {
+    display: block;
 }
 
 nav.vertical > *:not(:first-child) {
@@ -334,6 +355,8 @@ kbd {
 
 
 code {
+    text-wrap: nowrap;
+    white-space: pre;
     background: rgb(40, 44, 52);
     font-family: "Roboto Mono", monospace;
     padding: .2em;
@@ -341,10 +364,17 @@ code {
     border-radius: .5em;
 }
 
+code.equation {
+    font-family: serif;
+    color: pink;
+    background: rgb(93, 49, 99)
+}
+
 dt:has(code) + dd,
 pre:has(code) + div:has(p) {
     margin-top: 1rem;
 }
+
 
 #sectNav {
     font-size: 1.2em;
@@ -370,12 +400,13 @@ pre:has(code) + div:has(p) {
 #listNamespaces,
 #listFns,
 #listErrSets,
+section,
 td > p {
     display: block;
     padding: 1rem;
 }
 
-#fnProto, #tldDocs {
+#fnProto, #tldDocs, section {
     margin-top: 2rem;
 }
 
@@ -393,7 +424,8 @@ td > p {
 #listFns,
 #listErrSets,
 td > p,
-table {
+table,
+section {
     background: hsla(272, 12%, 21%, 0.5);
     width: 100%;
     border-radius: 1rem;
@@ -486,6 +518,12 @@ header > h2,
 .dialog-content > h3 {
     margin-top: 0;
 }
+
+#sectNav:has(~ #sectSearchResults:not(.hidden)),
+#sectNav:has(~ #sectSearchNoResults:not(.hidden)) {
+    display: none;
+}
+
 
 
 #root,
