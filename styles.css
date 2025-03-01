@@ -16,7 +16,11 @@ html, body {
 }
 
 body {
-    margin: 0 1rem;
+    margin: 0; /* Changed to 0 to allow viewport width to take full effect */
+    padding: 0 1rem; /* Added padding for spacing */
+    font-family: "Roboto", sans-serif;
+    background-color: hsl(273, 16%, 34%);
+    color: white;
 }
 
 .wrapper {
@@ -27,7 +31,8 @@ body {
 
 .content {
     margin: 1rem auto;
-    width: 960px;
+    width: 90%; /* Changed to percentage */
+    max-width: 40rem; /* Added max-width for larger screens */
 }
 
 .dialog {
@@ -130,12 +135,6 @@ h4,
 h5,
 h6 {
     text-wrap: balance;
-}
-
-body {
-    font-family: "Roboto", sans-serif;
-    background-color: hsl(273, 16%, 34%);
-    color: white;
 }
 
 h1 {
