@@ -19,11 +19,15 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .content {
-    margin: 1rem auto;
-    max-width: 40rem;
+    margin: auto;
+    max-width: calc(min(40rem, 100%));
+    padding: 1rem;
 }
 
 .dialog {
@@ -107,16 +111,16 @@ p {
 }
 
 h1 {
-    font-size: 2cm;
+    font-size: 2em;
     line-height: .75em;
 }
 
 h2 {
-    font-size: 1cm;
+    font-size: 2em;
 }
 
 h3 {
-    font-size: .75cm;
+    font-size: .75em;
 }
 
 h1,
@@ -180,12 +184,21 @@ nav.vertical {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    text-align: right;
 }
 
 nav.horizontal {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
+}
+
+nav.vertical > *:not(:first-child) {
+    margin-top: 1rem;
+}
+
+nav.horizontal > *:not(:first-child) {
+    margin-left: 1rem;
 }
 
 h2, h3, h4 {
@@ -205,6 +218,40 @@ header {
 
 header > *:first-child {
     align-self: flex-start;
+}
+
+#bio {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+#bio-facts {
+    margin: 1rem 0;
+    align-self: flex-start;
+}
+
+#bio-contact {
+    margin-top: 1rem;
+}
+
+#bio-contact {
+    text-align: right;
+}
+
+#ribbon-blurb {
+    margin: 10rem 0;
+    display: block;
+    text-align: center;
+}
+
+#other-projects {
+    margin-top: 2rem;
+}
+
+#discord-dialog .dialog-content {
+    max-width: 30rem;
 }
 
 header > h2 {
@@ -243,6 +290,11 @@ kbd {
     background: hsl(273, 16%, 34%);
     padding: 1rem;
     border-radius: .5rem;
+}
+
+.zig-doc {
+    margin: 0 auto;
+    max-width: min(1024px, 100%);
 }
 
 .tok-builtin {
@@ -295,7 +347,7 @@ pre:has(code) + div:has(p) {
 }
 
 #sectNav {
-    font-size: 1cm;
+    font-size: 1.2em;
 }
 
 #listFnErrors *:not(:first-child),
