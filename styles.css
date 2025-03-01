@@ -406,7 +406,7 @@ td > p {
     padding: 1rem;
 }
 
-#fnProto, #tldDocs, section {
+#fnProto, #tldDocs, p + section {
     margin-top: 2rem;
 }
 
