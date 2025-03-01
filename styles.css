@@ -376,7 +376,7 @@ code {
 }
 
 code.equation {
-    font-family: serif;
+    font-family: "Noto Serif", "Noto Serif JP", serif, monospace, sans-serif;
     color: pink;
     background: rgb(93, 49, 99)
 }
