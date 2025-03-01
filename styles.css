@@ -233,6 +233,17 @@ a {
     text-underline-offset: .2rem;
 }
 
+.anchor {
+    display: block;
+    position: relative;
+    left: -.5rem;
+    width: 0;
+    overflow: show;
+    text-decoration: none;
+    font-size: .5rem;
+    opacity: 0.5;
+}
+
 header {
     margin-bottom: 4rem;
 }
@@ -443,7 +454,7 @@ td > code {
     display: inline;
 }
 
-#listNav:not(:has(li)) + #list-nav-eql {
+#listNav:not(:has(li)):not(:has(~ .error)) + #list-nav-eql {
     display: none;
 }
 
@@ -532,9 +543,9 @@ header > h2,
 }
 
 .inline {
-    display: inline;
+    display: inline !important;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }

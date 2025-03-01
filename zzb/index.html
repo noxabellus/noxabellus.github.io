@@ -57,7 +57,7 @@
                         straight-forward criteria for backwards compatibility.
                     </p>
 
-                    <h3>Once set up, a set of build steps are made available:</h3>
+                    <h3 id="main-doc:section-build-steps"><a class="anchor" href="#main-doc:section-build-steps">🔗</a>Once set up, a set of build steps are made available:</h3>
 <pre><code class="language-bash"># default (install) step
 zig build
 
@@ -79,10 +79,10 @@ zig build check-main
 # flags work as expected
 zig build run-main --release=fast</code></pre>
 
-                    <h3><code>build.zig</code>:</h3>
+                    <h3 id="main-doc:section-build-zig"><a class="anchor" href="#main-doc:section-build-zig">🔗</a><code>build.zig</code>:</h3>
 <pre><code class="language-rust">pub const build = @import("zzb").Builder.run;</code></pre>
 
-                    <h3><code>build.zig.zon</code>:</h3>
+                    <h3 id="main-doc:section-build-zig-zon"><a class="anchor" href="#main-doc:section-build-zig-zon">🔗</a><code>build.zig.zon</code>:</h3>
 <pre><code class="language-rust">.{
     .name = "cool_zig_package",
     .version = "0.1.0",
@@ -140,7 +140,7 @@ zig build run-main --release=fast</code></pre>
     },
 }</code></pre>
 
-                    <h3>Usage from the <code>build.zig</code> of a package that depends on yours is typical:</h3>
+                    <h3 id="main-doc:section-usage"><a class="anchor" href="#main-doc:section-usage">🔗</a>Usage from the <code>build.zig</code> of a package that depends on yours is typical:</h3>
 <pre><code class="language-rust">const cool_zig_package = b.dependency("cool_zig_package", .{
     .target = ourTarget,
     .optimize = ourOptimize,
@@ -154,6 +154,7 @@ const X = b.module("X");</code></pre>
                 </div>
             </header>
             <main>
+                <a class="anchor" id="main-doc:zig-documentation" href="#main-doc:zig-documentation">🔗</a>
                 <article>
                     <div id="sectNav">
                         <p id="status">[Loading zig doc...]</p>
@@ -286,7 +287,7 @@ const X = b.module("X");</code></pre>
 
         function onHashChange() {
             if (searchBox.value != ""
-            || (window.location.hash != "#" && window.location.hash != "" && window.location.hash != "#zzb")) {
+            || (window.location.hash != "" && window.location.hash != "#" && window.location.hash != "#zzb" && !`${window.location.hash}`.startsWith("#main-doc:"))) {
                 packageDescription.classList.add("hidden");
             } else {
                 packageDescription.classList.remove("hidden");

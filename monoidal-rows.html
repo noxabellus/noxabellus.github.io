@@ -20,10 +20,6 @@
         hljs.addPlugin(new CopyButtonPlugin());
     </script>
 
-    <link rel="stylesheet" href="https://unpkg.com/katex@0.16.21/dist/katex.min.css">
-    <script src="https://unpkg.com/katex@0.16.21/dist/katex.min.js"></script>
-    <script src="https://unpkg.com/katex@0.16.21/dist/contrib/auto-render.min.js"></script>
-
     <style>
         .content {
             max-width: calc(min(40rem, 100%));
@@ -48,262 +44,250 @@
                     </nav>
                 </div>
             </header>
-            <article id="package-description">
-                <p>
-                    <strong>Monoidal Rows</strong> is an experimental type system based on <a href="./resources.html">various works</a>,
-                    most notably <a href="https://dl.acm.org/doi/10.1145/3290325">Abstracting Extensible Data Types or Rows By Any Other Name</a>.
-                </p>
-                <p>
-                    The initial row implementation was a fairly exact replica of the row theory termed "simple rows" in that paper.
-                    I have since extended it with a number of features of varying ambition and theoretical soundness.
-                </p>
+            <main>
+                <article id="package-description">
+                    <p>
+                        <strong>Monoidal Rows</strong> is an experimental type system based on <a href="./resources.html">various works</a>,
+                        most notably <a href="https://dl.acm.org/doi/10.1145/3290325">Abstracting Extensible Data Types or Rows By Any Other Name</a>.
+                    </p>
+                    <p>
+                        The initial row implementation was a fairly exact replica of the row theory termed "simple rows" in that paper.
+                        I have since extended it with a number of features of varying ambition and theoretical soundness.
+                    </p>
 
-                <h2>Contents</h2>
-                <section>
-                    <ul>
-                        <li><a href="#section-usage">Usage</a></li>
-                        <li>
-                            <a href="#section-features">Features</a>
-                            <ul>
-                                <li><a href="#section-monoidal-rows">Monoidal rows</a></li>
-                                <li><a href="#section-pattern-matching-inference">Pattern matching inference</a></li>
-                                <li><a href="#section-effect-rows">Effect rows</a></li>
-                                <li><a href="#section-data-constraints">Data constraints</a></li>
-                                <li><a href="#section-layout-polymorphism">Layout polymorphism</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </section>
-
-
-                <h2 id="section-usage">Usage</h2>
-                <p>
-                    There is no parser or driver here. The expected usage is as a
-                    reference, but if you would like to play with the
-                    inference there is a convenient test function in
-                    <code>Main</code> for use in <a href="https://www.haskell.org/ghcup/">GHCi</a>.
-                </p>
-                <p>
-                    The code and concepts explored here are public domain, do whatever you
-                    like with them. I'd like to hear from you if it turns
-                    out to be useful to you in a project or
-                    self-education.
-                </p>
-                <p>
-                    For my own future and expanded work based on this study, check out the
-                    <a href="https://ribbon-lang.com">Ribbon programming language</a>.
-                </p>
+                    <h2>Contents</h2>
+                    <section>
+                        <ul>
+                            <li><a href="#section-usage">Usage</a></li>
+                            <li>
+                                <a href="#section-features">Features</a>
+                                <ul>
+                                    <li><a href="#section-monoidal-rows">Monoidal rows</a></li>
+                                    <li><a href="#section-pattern-matching-inference">Pattern matching inference</a></li>
+                                    <li><a href="#section-effect-rows">Effect rows</a></li>
+                                    <li><a href="#section-data-constraints">Data constraints</a></li>
+                                    <li><a href="#section-layout-polymorphism">Layout polymorphism</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
 
 
-                <h2 id="section-features">Features</h2>
-                <h3 id="section-monoidal-rows">Monoidal rows</h3>
-                <p>
-                    The basic concept here is the inclusion of the row
-                    concatenation constraint <code class="equation">ζ₁ ⊙ ζ₂ ~ ζ₃</code> which is the only
-                    way to combine rows in this system, and stands in
-                    contrast to other systems where in the usual method f
-                    row combination is via extension.
-                </p>
-                <p>Ie, rather than type constructors like:</p>
+                    <h2 id="section-usage"><a class="anchor" href="#section-usage">🔗</a>Usage</h2>
+                    <p>
+                        There is no parser or driver here. The expected usage is as a
+                        reference, but if you would like to play with the
+                        inference there is a convenient test function in
+                        <code>Main</code> for use in <a href="https://www.haskell.org/ghcup/">GHCi</a>.
+                    </p>
+                    <p>
+                        The code and concepts explored here are public domain, do whatever you
+                        like with them. I'd like to hear from you if it turns
+                        out to be useful to you in a project or
+                        self-education.
+                    </p>
+                    <p>
+                        For my own future and expanded work based on this study, check out the
+                        <a href="https://ribbon-lang.com">Ribbon programming language</a>.
+                    </p>
+
+
+                    <h2 id="section-features"><a class="anchor" href="#section-features">🔗</a>Features</h2>
+                    <h3 id="section-monoidal-rows"><a class="anchor" href="#section-monoidal-rows">🔗</a>Monoidal rows</h3>
+                    <p>
+                        The basic concept here is the inclusion of the row
+                        concatenation constraint <code class="equation">ζ₁ ⊙ ζ₂ ~ ζ₃</code> which is the only
+                        way to combine rows in this system, and stands in
+                        contrast to other systems where in the usual method f
+                        row combination is via extension.
+                    </p>
+                    <p>Ie, rather than type constructors like:</p>
 <pre><code class="language-haskell">data Type
     = ...
     | TRowExtend Field Type
-    | TRowNil
-</code></pre>
-                <p>You have only a type constructor like:</p>
+    | TRowNil</code></pre>
+                    <p>You have only a type constructor like:</p>
 <pre><code class="language-haskell">data Type
     = ...
-    | TRow (Map Name Type)
-</code></pre>
-                <p>and combination is done via constraint solving.</p>
-                <p>
-                    Additionally, there is a constraint for row
-                    subtyping <code class="equation">ζ₁ ◁ ζ₂</code>, which allows constraining a row
-                    to a subset of another. This is representable in
-                    terms of the concatenation constraint, and in other
-                    implementations based on this paper it is; however I
-                    have found it allows a nice syntactic simplification
-                    of many constraints and so I have chosen to leave it
-                    as its own constraint constructor.
-                </p>
-                <p>
-                    Despite the <code class="equation">⊙</code> operation being associative and
-                    commutative, the rows are still only partial monoids,
-                    as the union produced is expected to be disjoint.
-                </p>
+    | TRow (Map Name Type)</code></pre>
+                    <p>and combination is done via constraint solving.</p>
+                    <p>
+                        Additionally, there is a constraint for row
+                        subtyping <code class="equation">ζ₁ ◁ ζ₂</code>, which allows constraining a row
+                        to a subset of another. This is representable in
+                        terms of the concatenation constraint, and in other
+                        implementations based on this paper it is; however I
+                        have found it allows a nice syntactic simplification
+                        of many constraints and so I have chosen to leave it
+                        as its own constraint constructor.
+                    </p>
+                    <p>
+                        Despite the <code class="equation">⊙</code> operation being associative and
+                        commutative, the rows are still only partial monoids,
+                        as the union produced is expected to be disjoint.
+                    </p>
 
-                <h3 id="section-pattern-matching-inference">Pattern matching inference</h3>
-                <p>
-                    The first extension made to the implementation in
-                    comparison to that of the original paper was to
-                    replace the branch operation <code class="equation">Δ</code> with a pattern
-                    matching implementation. This is a very
-                    straight-forward addition, and the features I have
-                    gone with here could easily be extended further; for
-                    example I have product row patterns as always
-                    producing a sub-row constraint, but other types of
-                    patterns would easily extend this, such as making
-                    the current system accessible via an additive <code class="equation">...</code>
-                    pattern, and expecting patterns without this
-                    qualifier to emit an exact constraint.
-                </p>
-                <p>
-                    This just required extending the AST with a <code>Patt</code>
-                    type and mirroring the infer and check functions as
-                    <code>inferPatt</code> and <code>checkPatt</code>
-                </p>
+                    <h3 id="section-pattern-matching-inference"><a class="anchor" href="#section-pattern-matching-inference">🔗</a>Pattern matching inference</h3>
+                    <p>
+                        The first extension made to the implementation in
+                        comparison to that of the original paper was to
+                        replace the branch operation <code class="equation">Δ</code> with a pattern
+                        matching implementation. This is a very
+                        straight-forward addition, and the features I have
+                        gone with here could easily be extended further; for
+                        example I have product row patterns as always
+                        producing a sub-row constraint, but other types of
+                        patterns would easily extend this, such as making
+                        the current system accessible via an additive <code class="equation">...</code>
+                        pattern, and expecting patterns without this
+                        qualifier to emit an exact constraint.
+                    </p>
+                    <p>
+                        This just required extending the AST with a <code>Patt</code>
+                        type and mirroring the infer and check functions as
+                        <code>inferPatt</code> and <code>checkPatt</code>
+                    </p>
 
-                <h3 id="section-effect-rows">Effect rows</h3>
-                <p>
-                    The most theoretically sketchy addition I have made
-                    here is to distinguish between the existing rows
-                    (re-termed data row) and effects rows, with the
-                    effect rows being simple lists of types rather than
-                    maps. The sketchy part being that I allow
-                    instantiation of effect constructors at multiple
-                    different parameters in the same row. This leads to
-                    a rather complicated constraint reduction/unification strategy,
-                    and the consequences of my implementation have not been fully explored.
-                </p>
-                <p>
-                    Notably, because effect constructors can be
-                    instantiated at multiple types, we cannot always
-                    unify variables immediately. I have chosen to unify
-                    where there is only one option and to emit a sub-row
-                    constraint where there are multiple. One can imagine
-                    this may lead to unsoundness in some scenario,
-                    though my testing has not revealed any such problems
-                    yet. A simple fix for this, if it proves to be
-                    problematic, would simply be to not unify the free
-                    meta-variables inside effect rows at all, and to
-                    expect other uses of the variable to provide the
-                    unification for us.
-                </p>
-                <p>
-                    Various things were added to the implementation to
-                    support the effect rows, including a handler term,
-                    evidence passing during inference, and an extension
-                    to the environment containing effect definitions.
-                </p>
+                    <h3 id="section-effect-rows"><a class="anchor" href="#section-effect-rows">🔗</a>Effect rows</h3>
+                    <p>
+                        The most theoretically sketchy addition I have made
+                        here is to distinguish between the existing rows
+                        (re-termed data row) and effects rows, with the
+                        effect rows being simple lists of types rather than
+                        maps. The sketchy part being that I allow
+                        instantiation of effect constructors at multiple
+                        different parameters in the same row. This leads to
+                        a rather complicated constraint reduction/unification strategy,
+                        and the consequences of my implementation have not been fully explored.
+                    </p>
+                    <p>
+                        Notably, because effect constructors can be
+                        instantiated at multiple types, we cannot always
+                        unify variables immediately. I have chosen to unify
+                        where there is only one option and to emit a sub-row
+                        constraint where there are multiple. One can imagine
+                        this may lead to unsoundness in some scenario,
+                        though my testing has not revealed any such problems
+                        yet. A simple fix for this, if it proves to be
+                        problematic, would simply be to not unify the free
+                        meta-variables inside effect rows at all, and to
+                        expect other uses of the variable to provide the
+                        unification for us.
+                    </p>
+                    <p>
+                        Various things were added to the implementation to
+                        support the effect rows, including a handler term,
+                        evidence passing during inference, and an extension
+                        to the environment containing effect definitions.
+                    </p>
 
-                <h3 id="section-data-constraints">Data constraints</h3>
-                <p>
-                    This simple extension adds a new member to the
-                    environment containing <code class="equation">τ → ρ</code>
-                    data type associations, and two new constraints allowing the
-                    binding of a type to be a data type of either
-                    product or row construction. <code>TProd</code> and <code>TSum</code> type
-                    constructors become ephemeral constraint-passing
-                    markers for use with <code>check</code>, and instead of inferring
-                    all uses of rows as instantiations of <code>TProd</code> or <code>TRow</code>,
-                    we infer them to be instantiations of variable type
-                    constrained to an appropriate row association.
-                </p>
-                <p>
-                    The inclusion of this feature is designed to counter
-                    the usual problems of structural typing; ie
-                    incompatibility with systems like typeclasses, and
-                    the need for complex methods to work with recursive
-                    aliases. This allows us to have our row
-                    polymorphism, with the same level of expressivity,
-                    while maintaining nominative type system features as
-                    well. This has no impact on theoretic soundness, but
-                    does lead to more verbose signatures. This could be
-                    combatted by the addition of inline constraints like
-                    those used in the original paper, which would
-                    presumably be lifted into the current qualifier
-                    system at kind inference.
-                </p>
-                <h3 id="section-layout-polymorphism">Layout polymorphism</h3>
-                <p>
-                    This is another large addition, but turned out not
-                    to have nearly the same sketchy theoretical
-                    implications as the effect rows, though the method
-                    of solve is quite similar.
-                </p>
-                <p>
-                    Essentially, I borrow and extend concepts from
-                    implementations of first-class labels
-                    (à la <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/fclabels.pdf">First Class Labels for Extensible Rows</a>)
-                    in order to allow a new kind of polymorphic variance over data.
-                    In data rows, instead of a map from strings to types,
-                    we now have an associative array of labels to types,
-                    where labels are themselves a pair of types. The
-                    types contained in this pair are expected to always
-                    be of the kinds <code class="equation">Int</code> and
-                    <code class="equation">String</code> respectively;
-                    in other words we lift integers and strings to the type
-                    level to serve together as our label. The string
-                    obviously serves the same purpose as before, while
-                    the addition of the integer allows us to talk about
-                    the layout of our data.
-                </p>
-                <p>
-                    Unlike in systems with true first-class labels, I do
-                    not allow full polymorphic variance over the entire
-                    label of a given field. Instead, either the layout
-                    or the name must always be specified. This
-                    limitation simplifies the constraint solving to a
-                    great degree and allows it to be easily shown as
-                    sound, avoiding the problem encountered in effects
-                    rows. Multiple possible unifications of labels are
-                    invariably an error.
-                </p>
-                <p>
-                    To support this feature I added new forms to the AST
-                    in terms and pattern matching, that each allow
-                    either variance over layout or naming of their
-                    specified structures. This is fairly straight
-                    forward, and just leads to a bit of code repetition
-                    as we decide between creation of fresh meta
-                    variables for either the layout or name in labels.
-                    As it is quite verbose, I have left the syntax
-                    extension quite simple, but a much more expressive
-                    syntax should only require an equally straight
-                    forward modification; one could imagine for example
-                    allowing variance over some fields but not others
-                    with optional syntax.
-                </p>
-                <p>
-                    The idea with this feature was to circumvent another
-                    typical problem with row types, that being that
-                    layout is generally chosen by the compiler, making
-                    it somewhat incompatible with usage in systems-level
-                    languages. The concept here is that, when defining a
-                    data type, the layout is always that given by the
-                    programmer, and when utilizing the data type at term
-                    (and pattern) level, the layout can be ignored. The
-                    simple addition of allowing the programmer to talk
-                    about the layout at term level also leads to
-                    syntactic conveniences, such as (in the case of
-                    un-curried functions using tuples for their n-ary
-                    argument passing) allowing a simple implementation
-                    of positional and named argument syntax. It also
-                    allows dual-construction syntax like that of Haskell
-                    data types. I also extended the usage of rows this
-                    way for sums, which at a term/pattern level may have
-                    limited use; however, being able to define the
-                    discriminator in data type definitions is obviously
-                    of some utility, if a language gives access to the
-                    underlying structure of sums.
-                </p>
-            </article>
+                    <h3 id="section-data-constraints"><a class="anchor" href="#section-data-constraints">🔗</a>Data constraints</h3>
+                    <p>
+                        This simple extension adds a new member to the
+                        environment containing <code class="equation">τ → ρ</code>
+                        data type associations, and two new constraints allowing the
+                        binding of a type to be a data type of either
+                        product or row construction. <code>TProd</code> and <code>TSum</code> type
+                        constructors become ephemeral constraint-passing
+                        markers for use with <code>check</code>, and instead of inferring
+                        all uses of rows as instantiations of <code>TProd</code> or <code>TRow</code>,
+                        we infer them to be instantiations of variable type
+                        constrained to an appropriate row association.
+                    </p>
+                    <p>
+                        The inclusion of this feature is designed to counter
+                        the usual problems of structural typing; ie
+                        incompatibility with systems like typeclasses, and
+                        the need for complex methods to work with recursive
+                        aliases. This allows us to have our row
+                        polymorphism, with the same level of expressivity,
+                        while maintaining nominative type system features as
+                        well. This has no impact on theoretic soundness, but
+                        does lead to more verbose signatures. This could be
+                        combatted by the addition of inline constraints like
+                        those used in the original paper, which would
+                        presumably be lifted into the current qualifier
+                        system at kind inference.
+                    </p>
+                    <h3 id="section-layout-polymorphism"><a class="anchor" href="#section-layout-polymorphism">🔗</a>Layout polymorphism</h3>
+                    <p>
+                        This is another large addition, but turned out not
+                        to have nearly the same sketchy theoretical
+                        implications as the effect rows, though the method
+                        of solve is quite similar.
+                    </p>
+                    <p>
+                        Essentially, I borrow and extend concepts from
+                        implementations of first-class labels
+                        (à la <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/fclabels.pdf">First Class Labels for Extensible Rows</a>)
+                        in order to allow a new kind of polymorphic variance over data.
+                        In data rows, instead of a map from strings to types,
+                        we now have an associative array of labels to types,
+                        where labels are themselves a pair of types. The
+                        types contained in this pair are expected to always
+                        be of the kinds <code class="equation">Int</code> and
+                        <code class="equation">String</code> respectively;
+                        in other words we lift integers and strings to the type
+                        level to serve together as our label. The string
+                        obviously serves the same purpose as before, while
+                        the addition of the integer allows us to talk about
+                        the layout of our data.
+                    </p>
+                    <p>
+                        Unlike in systems with true first-class labels, I do
+                        not allow full polymorphic variance over the entire
+                        label of a given field. Instead, either the layout
+                        or the name must always be specified. This
+                        limitation simplifies the constraint solving to a
+                        great degree and allows it to be easily shown as
+                        sound, avoiding the problem encountered in effects
+                        rows. Multiple possible unifications of labels are
+                        invariably an error.
+                    </p>
+                    <p>
+                        To support this feature I added new forms to the AST
+                        in terms and pattern matching, that each allow
+                        either variance over layout or naming of their
+                        specified structures. This is fairly straight
+                        forward, and just leads to a bit of code repetition
+                        as we decide between creation of fresh meta
+                        variables for either the layout or name in labels.
+                        As it is quite verbose, I have left the syntax
+                        extension quite simple, but a much more expressive
+                        syntax should only require an equally straight
+                        forward modification; one could imagine for example
+                        allowing variance over some fields but not others
+                        with optional syntax.
+                    </p>
+                    <p>
+                        The idea with this feature was to circumvent another
+                        typical problem with row types, that being that
+                        layout is generally chosen by the compiler, making
+                        it somewhat incompatible with usage in systems-level
+                        languages. The concept here is that, when defining a
+                        data type, the layout is always that given by the
+                        programmer, and when utilizing the data type at term
+                        (and pattern) level, the layout can be ignored. The
+                        simple addition of allowing the programmer to talk
+                        about the layout at term level also leads to
+                        syntactic conveniences, such as (in the case of
+                        un-curried functions using tuples for their n-ary
+                        argument passing) allowing a simple implementation
+                        of positional and named argument syntax. It also
+                        allows dual-construction syntax like that of Haskell
+                        data types. I also extended the usage of rows this
+                        way for sums, which at a term/pattern level may have
+                        limited use; however, being able to define the
+                        discriminator in data type definitions is obviously
+                        of some utility, if a language gives access to the
+                        underlying structure of sums.
+                    </p>
+                </article>
+            </main>
         </div>
     </div>
     <script>
         hljs.highlightAll();
-
-        const katexElems = document.querySelectorAll('.katex');
-
-        katexElems.forEach(elem => {
-            console.log("attempting to render katex");
-            renderMathInElement(elem, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false }
-                ]
-            });
-        });
     </script>
 </body>
 
