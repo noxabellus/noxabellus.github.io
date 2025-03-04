@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>noxabell.us/X64EZ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../styles.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark-reasonable.min.css">
+
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/bash.min.js"></script>
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/rust.min.js"></script> <!-- nobody's bothered to make a zig highlighter yet -->
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+
+    <script>
+        hljs.addPlugin(new CopyButtonPlugin());
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="content zig-doc" id="main-doc">
+            <header>
+                <h1><a href="../index.html">noxabellus'</a></h1>
+                <h2><a href="#">X64EZ</a></h2>
+
+                <div id="nav-wrap">
+                    <nav class="horizontal">
+                        <pre><code class="language-bash">zig fetch --save git+https://github.com/noxabellus/X64EZ</code></pre>
+                        <nav class="vertical">
+                            <a href="https://github.com/noxabellus/X64EZ/blob/main/LICENSE">[The MIT License]</a>
+                            <a href="https://github.com/noxabellus/X64EZ">[View on Github]</a>
+                        </nav>
+                    </nav>
+                    <input type="search" id="search" autocomplete="off" spellcheck="false"
+                        placeholder="`s` to search, `esc` to clear, `?` to see more options">
+                </div>
+
+                <div id="package-description">
+                    <p>
+                        <strong>X64EZ</strong> is a fork of
+                        <a href="https://github.com/kubkon/zig-dis-x86_64">kubkon's zig-dis-x86_64</a>,
+                        that I've switched up a bit to make it more usable for my purposes
+                        as an assembler/disassembler for the <a href="https://ribbon-lang.com">Ribbon Programming Language</a> .
+                        I have added a friendly one-shot disassembler function,
+                        and a few quality of life enhancements when using it as an assembler,
+                        such as constants utilizing Zig's enum literal coercion.
+                    </p>
+                </div>
+            </header>
+            <main>
+                <a class="anchor" id="main-doc:zig-documentation" href="#main-doc:zig-documentation">🔗</a>
+                <article>
+                    <div id="sectNav">
+                        <p id="status">[Loading zig doc...]</p>
+                        <ul id="listNav"></ul>
+                        <div id="list-nav-eql">
+                            <span>&nbsp;=&nbsp;</span>
+                            <h3 id="hdrName" class="hidden"><span></span><a href="#">[src]</a></h3>
+                        </div>
+                    </div>
+                    <div id="tldDocs" class="hidden"></div>
+                    <div id="fnProto" class="hidden">
+                        <pre><code id="fnProtoCode"></code></pre>
+                    </div>
+                    <div id="sectParams" class="hidden">
+                        <h2>Parameters</h2>
+                        <div id="listParams">
+                        </div>
+                    </div>
+                    <div id="sectFnErrors" class="hidden">
+                        <h2>Errors</h2>
+                        <div id="fnErrorsAnyError">
+                            <p><span class="tok-type">anyerror</span> means the error set is known only at runtime.</p>
+                        </div>
+                        <div id="tableFnErrors">
+                            <dl id="listFnErrors"></dl>
+                        </div>
+                    </div>
+                    <div id="sectSearchResults" class="hidden">
+                        <h2>Search Results</h2>
+                        <ul id="listSearchResults"></ul>
+                    </div>
+                    <div id="sectSearchNoResults" class="hidden">
+                        <h2>No Results Found</h2>
+                        <p>Press escape to exit search and then '?' to see more options.</p>
+                    </div>
+                    <div id="sectFields" class="hidden">
+                        <h2>Fields</h2>
+                        <div id="listFields">
+                        </div>
+                    </div>
+                    <div id="sectTypes" class="hidden">
+                        <h2>Types</h2>
+                        <ul id="listTypes" class="columns">
+                        </ul>
+                    </div>
+                    <div id="sectNamespaces" class="hidden">
+                        <h2>Namespaces</h2>
+                        <ul id="listNamespaces" class="columns">
+                        </ul>
+                    </div>
+                    <div id="sectGlobalVars" class="hidden">
+                        <h2>Global Variables</h2>
+                        <table>
+                            <tbody id="listGlobalVars">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="sectValues" class="hidden">
+                        <h2>Values</h2>
+                        <table>
+                            <tbody id="listValues">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="sectFns" class="hidden">
+                        <h2>Functions</h2>
+                        <dl id="listFns">
+                        </dl>
+                    </div>
+                    <div id="sectErrSets" class="hidden">
+                        <h2>Error Sets</h2>
+                        <ul id="listErrSets" class="columns">
+                        </ul>
+                    </div>
+                    <div id="sectDocTests" class="hidden">
+                        <h2>Example Usage</h2>
+                        <pre><code id="docTestsCode"></code></pre>
+                    </div>
+                    <div id="sectSource" class="hidden">
+                        <h2>Source Code</h2>
+                        <pre><code id="sourceText"></code></pre>
+                    </div>
+                    <div id="errors" class="hidden">
+                        <h3>Errors</h3>
+                        <pre id="errorsText"></pre>
+                    </div>
+                </article>
+            </main>
+        </div>
+    </div>
+    <div id="helpDialog" class="hidden dialog">
+        <div class="dialog-content">
+            <h3>Keyboard Shortcuts</h3>
+            <dl>
+                <dt><kbd>?</kbd></dt>
+                <dd>Show this help dialog</dd>
+            </dl>
+            <dl>
+                <dt><kbd>Esc</kbd></dt>
+                <dd>Clear focus; close this dialog</dd>
+            </dl>
+            <dl>
+                <dt><kbd>s</kbd></dt>
+                <dd>Focus the search field</dd>
+            </dl>
+            <dl>
+                <dt><kbd>u</kbd></dt>
+                <dd>Go to source code</dd>
+            </dl>
+            <dl>
+                <dt><kbd>↑</kbd></dt>
+                <dd>Move up in search results</dd>
+            </dl>
+            <dl>
+                <dt><kbd>↓</kbd></dt>
+                <dd>Move down in search results</dd>
+            </dl>
+            <dl>
+                <dt><kbd>⏎</kbd></dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+    </div>
+    <script>hljs.highlightAll();</script>
+    <script src="../zig_doc.js"></script>
+    <script>
+        const helpDialog = document.getElementById("helpDialog");
+        const searchBox = document.getElementById("search");
+        const packageDescription = document.getElementById("package-description");
+
+        function onHashChange() {
+            if (searchBox.value != ""
+            || (window.location.hash != "" && window.location.hash != "#" && window.location.hash != "#X64EZ" && !`${window.location.hash}`.startsWith("#main-doc"))) {
+                packageDescription.classList.add("hidden");
+            } else {
+                packageDescription.classList.remove("hidden");
+            }
+        }
+        searchBox.addEventListener("input", onHashChange);
+        window.addEventListener("hashchange", onHashChange);
+        window.addEventListener("keydown", e => {
+            if (e.key == "Escape") {
+                searchBox.value = "";
+                onHashChange();
+            }
+        });
+        searchBox.addEventListener("keydown", e => {
+            if (e.key == "Escape") {
+                setTimeout(onHashChange, 100);
+            }
+        });
+
+        onHashChange();
+
+        helpDialog.addEventListener("click", () => {
+            helpDialog.classList.add("hidden");
+        });
+    </script>
+</body>
+
+</html>
