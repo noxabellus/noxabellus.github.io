@@ -272,8 +272,8 @@ header > *:first-child {
     text-align: right;
 }
 
-#ribbon-blurb {
-    margin: 10rem 0;
+.blurb {
+    margin: 4rem 0;
     display: block;
     text-align: center;
 }

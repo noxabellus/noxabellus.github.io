@@ -1,0 +1,23 @@
+{
+  "name": "noxabellus.github.io",
+  "version": "1.0.0",
+  "description": "Personal website, github pages",
+  "homepage": "https://github.com/noxabellus/noxabellus.github.io#readme",
+  "bugs": {
+    "url": "https://github.com/noxabellus/noxabellus.github.io/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noxabellus/noxabellus.github.io.git"
+  },
+  "license": "UNLICENSED",
+  "author": "noxabellus",
+  "type": "commonjs",
+  "main": ".",
+  "scripts": {
+    "test": "http-server ."
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -13,6 +13,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./styles.css">
+
+    <style>
+        .img-link {
+            border-bottom: .15em dashed #FFFA;
+            text-decoration: none;
+        }
+
+        .img-link > img {
+            display:inline-block;
+            padding: .2em;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 2em;
+            margin: .2em;
+        }
+
+        .blurb-set {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,14 +62,21 @@
                 </article>
             </header>
             <main>
-                <em id="ribbon-blurb">spending most of my time over at
-                    <a href="https://tinybow.org">Tiny Bow</a></em>
+                <div class="blurb-set">
+                    <em class="blurb">
+                        developing <br>
+                        <a href="https://ribbon-lang.com" class="img-link"><img src="images/ribbon-icon.png"/></a>
+                            at <a href="https://tinybow.org" class="img-link"><img src="images/tiny-bow-icon.png"/></a></em>
+                    <em class="blurb">
+                        designing <br>
+                        <a href="https://atet.site" class="img-link"><img src="images/atet.png"></a></em>
+                </div>
                 <article>
                     <ul>
-                        <li><a href="https://github.com/tiny-bow">current project</a> - all the tiny bow repos: ribbon-language, ribbon-engine, support forks</li>
+                        <li><a href="https://github.com/tiny-bow">tiny bow github</a> - all the tiny bow repos: ribbon-language, ribbon-engine, and support</li>
+                        <li><a href="https://atet.site"><em>atet</em> design docs</a> - a game / fictional universe i'm working on in my free time</li>
                         <li><a href="https://github.com/noxabellus">personal github</a> - i have quite a few old projects archived here, if you're interested</li>
-                        <li><a href="./resources.html">resources</a> - academic resources i've collected while doing language design research</li>
-                        <li><a href="./monoidal-rows.html">monoidal-rows</a> - an experimental type system, one of many prototypes</li>
+                        <li><a href="./resources.html">resources</a> - cs resources i've collected while doing language design research</li>
                     </ul>
                 </article>
             </main>
@@ -54,16 +85,32 @@
     <div id="discord-dialog" class="discord-ref dialog hidden">
         <div class="dialog-content">
             <p>
-                as far as i know, theres no way to give someone a link that opens a dm,
-                sends a friend request, or anything like that.
+                as far as i know, theres no reliable way to give someone a link that opens a dm or
+                sends a friend request
             </p>
+            
+            <p><em>add me as demonstrated here</em>:</p>
+            <img src="images/how-to-add-friend.gif"/>
+
             <p>
-                so, if you want to add me on discord, my username is <code>noxabellus</code>.
-                you can find me on quite a few dev servers,
-                such as <a href="https://discord.gg/4Kjt3ZE">pld</a>,
-                and <a href=" https://discord.gg/zig">zig</a>.
+                <em>or find me on various dev servers</em>:
+                
+                <br>- <a href="https://discord.gg/3FWqmJQAEQ">tiny bow</a>
+                <br>- <a href="https://discord.gg/4Kjt3ZE">pld</a>
+                <br>- <a href="https://discord.gg/zig">zig</a>
             </p>
-            <p>feel free to tag me or dm!</p>
+            
+            <p style="text-align: right">feel free to add, tag or dm ✨</p>
+
+            <iframe
+                style="display: block; margin: 1em auto 0;"
+                title="Discord user embed"
+                width="340"
+                height="72"
+                frameborder="0"
+                sandbox="allow-scripts"
+                src="https://widgets.vendicated.dev/user?id=1014277228642717697&theme=dark&banner=false&full-banner=false&rounded-corners=true&discord-icon=true&badges=false&guess-nitro=false&"
+            ></iframe>
         </div>
     </div>
     <script>
